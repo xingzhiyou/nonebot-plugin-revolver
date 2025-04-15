@@ -8,24 +8,16 @@ from nonebot.permission import SUPERUSER
 
 from .config import Config
 
-# 实例化 Config
-config = Config()
-
 # 插件元数据
 __plugin_meta__ = PluginMetadata(
     name="nonebot-plugin-revolver",
     description="简易左轮禁言小游戏插件",
-    usage="简易左轮禁言小游戏插件",
-    homepage="",
+    usage="轮盘、开枪",
+    homepage="https://github.com/xingzhiyou/nonebot-plugin-revolver",
     type="application",
+    config=Config,
     supported_adapters={"~onebot.v11"},  # 支持onebot v11适配器
 )
-
-__plugin_usage__ = """俄罗斯轮盘帮助：
-    开启游戏：轮盘（当群内有一名玩家使用该指令时，游戏开始）
-    开始对决：开枪（任意一个人使用该指令，处理开枪逻辑）
-    【注：同一时间群内只能有一场对决】
-"""
 
 # 初始化游戏命令
 revolver_start = on_command("轮盘", aliases={"左轮", "转盘", "装弹"}, priority=5, block=True)
