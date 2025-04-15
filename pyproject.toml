@@ -9,6 +9,8 @@ homepage = "https://github.com/xingzhiyou/nonebot-plugin-revolver"
 repository = "https://github.com/xingzhiyou/nonebot-plugin-revolver"
 keywords = ["nonebot", "plugin", "revolver", "game", "mute", "chatbot"]
 
+packages = [{ include = "nonebot_plugin_revolver", from = "src" }]
+
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
 nonebot2 = "^2.0.2"
@@ -21,5 +23,3 @@ isort = "^5.10.1"
 [build-system]
 requires = ["poetry-core>=1.6.0"]
 build-backend = "poetry.core.masonry.api"
-
-packages = [{ include = "nonebot_plugin_revolver", from = "src" }]
