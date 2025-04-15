@@ -1,6 +1,6 @@
 import random
 from nonebot.plugin import PluginMetadata
-from nonebot import on_command, logger
+from nonebot import on_command, logger, get_driver
 from nonebot.exception import FinishedException
 from nonebot.adapters.onebot.v11 import MessageEvent, Bot
 from nonebot.adapters.onebot.v11.permission import GROUP_ADMIN, GROUP_OWNER
@@ -19,6 +19,9 @@ __plugin_meta__ = PluginMetadata(
     supported_adapters={"~onebot.v11"},  # 支持onebot v11适配器
 )
 
+driver_config = get_driver().config.model_dump()  # 缓存配置
+conf = Config(**driver_config)  # 实例化配置类
+
 # 初始化游戏命令
 revolver_start = on_command("轮盘", aliases={"左轮", "转盘", "装弹"}, priority=5, block=True)
 revolver_shoot = on_command("开枪", priority=5, block=True)
@@ -28,13 +31,13 @@ bullet_position = None
 chamber_position = 6  # 开枪位置初始为6
 
 # 不可以使用此插件的群聊列表
-DISABLED_GROUPS = Config().DISABLED_GROUPS  # 替换为实际的群号
+DISABLED_GROUPS = conf.disabled_groups  # 替换为实际的群号
 
 # 可以禁言的群聊列表
-ENABLED_BAN_GROUPS = Config().ENABLED_BAN_GROUPS  # 替换为实际的群号
+ENABLED_BAN_GROUPS = conf.enabled_ban_groups  # 替换为实际的群号
 
 # 禁言时间（秒）
-BAN_DURATION = Config().BAN_DURATION  # 10分钟
+BAN_DURATION = conf.ban_duration  # 10分钟
 
 # 全局变量存储进行中的对局状态
 ongoing_games = set()  # 存储正在进行对局的群聊 ID
@@ -43,6 +46,9 @@ ongoing_games = set()  # 存储正在进行对局的群聊 ID
 @revolver_start.handle()
 async def start_game(event: MessageEvent):
     global bullet_position, chamber_position, ongoing_games
+
+    logger.info(f"接收到轮盘指令，群聊ID：{event.group_id}，用户ID：{event.user_id}")
+    logger.info(f"可以禁言的群聊列表：{ENABLED_BAN_GROUPS}")
 
     # 检查群聊是否被禁用
     if event.group_id in DISABLED_GROUPS:
