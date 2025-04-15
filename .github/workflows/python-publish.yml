@@ -39,7 +39,7 @@ jobs:
     - name: Publish to PyPI
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_USERNAME: "__token__"  # 固定值，表示使用 API Token
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
         if [ -d "dist" ]; then
