@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "nonebot-plugin-revolver"
+version = "0.1.0"
+description = "简易左轮禁言小游戏插件"
+authors = ["xingzhiyou <1043953801@qq.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/xingzhiyou/nonebot-plugin-revolver"
+repository = "https://github.com/xingzhiyou/nonebot-plugin-revolver"
+keywords = ["nonebot", "plugin", "revolver"]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+nonebot2 = "^2.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0"
+black = "^22.0"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.5.1"]
+build-backend = "poetry.core.masonry.api"
