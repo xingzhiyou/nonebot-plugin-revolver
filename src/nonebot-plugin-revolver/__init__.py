@@ -28,13 +28,13 @@ bullet_position = None
 chamber_position = 6  # 开枪位置初始为6
 
 # 不可以使用此插件的群聊列表
-DISABLED_GROUPS = config.DISABLED_GROUPS  # 替换为实际的群号
+DISABLED_GROUPS = Config().DISABLED_GROUPS  # 替换为实际的群号
 
 # 可以禁言的群聊列表
-ENABLED_BAN_GROUPS = config.ENABLED_BAN_GROUPS  # 替换为实际的群号
+ENABLED_BAN_GROUPS = Config().ENABLED_BAN_GROUPS  # 替换为实际的群号
 
 # 禁言时间（秒）
-BAN_DURATION = config.BAN_DURATION  # 10分钟
+BAN_DURATION = Config().BAN_DURATION  # 10分钟
 
 # 全局变量存储进行中的对局状态
 ongoing_games = set()  # 存储正在进行对局的群聊 ID
