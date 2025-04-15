@@ -29,6 +29,12 @@
    ```python
    nonebot.load_plugin("nonebot_plugin_revolver")
    ```
+## 配置
+在使用插件前，可以通过 `.env` 配置项进行自定义设置：
+
+- `DISABLED_GROUPS`：设置默认禁用插件的群聊 ID 列表。
+- `ENABLED_BAN_GROUPS`：设置默认允许禁言功能的群聊 ID 列表。
+- `BAN_DURATION`：设置默认禁言时间，单位为秒。
 
 ## 贡献
 欢迎提交 Issue 和 Pull Request 来改进本插件。
