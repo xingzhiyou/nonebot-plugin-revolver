@@ -87,7 +87,9 @@ async def shoot(bot: Bot, event: MessageEvent):
                 # 装弹
                 bullet_position = random.randint(1, 6)
                 chamber_position = 6
-            return await revolver_shoot.finish("当前没有装弹，请先使用“轮盘”指令装弹后再开枪！")
+                logger.info("装弹成功，游戏开始！")
+            else:
+                return await revolver_shoot.finish("当前没有装弹，请先使用“轮盘”指令装弹后再开枪！")
 
         logger.info(f"当前群聊：{event.group_id}，当前开枪位置：{chamber_position}，子弹位置：{bullet_position}")
         if chamber_position == bullet_position:
