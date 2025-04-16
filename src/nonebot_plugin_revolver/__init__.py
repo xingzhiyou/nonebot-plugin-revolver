@@ -36,6 +36,9 @@ DISABLED_GROUPS = conf.disabled_groups  # 替换为实际的群号
 # 可以禁言的群聊列表
 ENABLED_BAN_GROUPS = conf.enabled_ban_groups  # 替换为实际的群号
 
+# 是否禁言随机时间
+ROLLING_BAN = conf.rolling_ban  # 是否禁言随机时间
+
 # 禁言时间（秒）
 BAN_DURATION = conf.ban_duration  # 10分钟
 
@@ -49,6 +52,8 @@ async def start_game(event: MessageEvent):
 
     logger.info(f"接收到轮盘指令，群聊ID：{event.group_id}，用户ID：{event.user_id}")
     logger.info(f"可以禁言的群聊列表：{ENABLED_BAN_GROUPS}")
+    logger.info(f"当前有对战的群聊列表：{ongoing_games}")
+
 
     # 检查群聊是否被禁用
     if event.group_id in DISABLED_GROUPS:
@@ -63,7 +68,6 @@ async def start_game(event: MessageEvent):
     chamber_position = 6  # 初始化开枪位置为6
     ongoing_games.add(event.group_id)  # 标记该群聊有进行中的对局
     logger.info(f"游戏开始，子弹位置为：{bullet_position}")
-    logger.info(f"当前有对战的群聊列表：{ongoing_games}")
     await revolver_start.finish("游戏开始！左轮手枪已装填子弹，轮到你开枪了！")
 
 # 处理开枪命令
@@ -85,18 +89,21 @@ async def shoot(bot: Bot, event: MessageEvent):
             return await revolver_shoot.finish("已装弹但是未发现子弹，已重新装填子弹！轮到你开枪了！")
         return await revolver_shoot.finish("当前没有装弹，请先使用“轮盘”指令装弹后再开枪！")
 
-    logger.info(f"当前开枪位置：{chamber_position}，子弹位置：{bullet_position}")
+    logger.info(f"当前群聊：{event.group_id}，当前开枪位置：{chamber_position}，子弹位置：{bullet_position}")
     if chamber_position == bullet_position:
-        # 检查是否是超级用户
-        superusers = bot.config.superusers
-        if str(event.user_id) in superusers:
-            bullet_position = None  # 重置子弹位置，结束游戏
-            chamber_position = 6  # 重置开枪位置
-            ongoing_games.discard(event.group_id)  # 移除进行中的对局标记
-            return await revolver_shoot.finish("砰！你中弹了！但你是超级用户，不会被禁言。游戏结束！")
         # 中弹，检查是否允许禁言
         if event.group_id in ENABLED_BAN_GROUPS:
+            # 检查是否是超级用户
+            superusers = bot.config.superusers
+            if str(event.user_id) in superusers:
+                bullet_position = None  # 重置子弹位置，结束游戏
+                chamber_position = 6  # 重置开枪位置
+                ongoing_games.discard(event.group_id)  # 移除进行中的对局标记
+                return await revolver_shoot.finish("砰！你中弹了！但你是超级用户，不会被禁言。游戏结束！")
             try:
+                if ROLLING_BAN:
+                    # 随机禁言时间
+                    BAN_DURATION = random.randint(1, 600)
                 await bot.set_group_ban(
                     group_id=event.group_id,
                     user_id=event.user_id,
