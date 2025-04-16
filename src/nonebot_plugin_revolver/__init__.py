@@ -63,6 +63,7 @@ async def start_game(event: MessageEvent):
     chamber_position = 6  # 初始化开枪位置为6
     ongoing_games.add(event.group_id)  # 标记该群聊有进行中的对局
     logger.info(f"游戏开始，子弹位置为：{bullet_position}")
+    logger.info(f"当前有对战的群聊列表：{ongoing_games}")
     await revolver_start.finish("游戏开始！左轮手枪已装填子弹，轮到你开枪了！")
 
 # 处理开枪命令
@@ -76,6 +77,12 @@ async def shoot(bot: Bot, event: MessageEvent):
 
     # 检查子弹位置是否为空
     if bullet_position is None:
+        if event.group_id in ongoing_games:
+            # 重新装弹
+            bullet_position = random.randint(1, 6)
+            chamber_position = 6
+            logger.info(f"重新装弹，子弹位置为：{bullet_position}")
+            return await revolver_shoot.finish("已装弹但是未发现子弹，已重新装填子弹！轮到你开枪了！")
         return await revolver_shoot.finish("当前没有装弹，请先使用“轮盘”指令装弹后再开枪！")
 
     logger.info(f"当前开枪位置：{chamber_position}，子弹位置：{bullet_position}")
