@@ -105,7 +105,7 @@ async def shoot(bot: Bot, event: MessageEvent):
                 try:
                     if ROLLING_BAN:
                         # 随机禁言时间
-                        BAN_DURATION = random.randint(1, 600)
+                        BAN_DURATION = random.randint(1, BAN_DURATION)
                     await bot.set_group_ban(
                         group_id=event.group_id,
                         user_id=event.user_id,
