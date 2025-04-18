@@ -104,18 +104,20 @@ async def shoot(bot: Bot, event: MessageEvent):
                     return await revolver_shoot.finish("砰！你中弹了！但你是超级用户，不会被禁言。游戏结束！")
                 try:
                     if ROLLING_BAN:
-                        # 随机禁言时间
-                        BAN_DURATION = random.randint(1, BAN_DURATION)
+                        ban_duration = random.randint(1, BAN_DURATION)  # 使用局部变量存储随机禁言时间
+                    else:
+                        ban_duration = BAN_DURATION
+
                     await bot.set_group_ban(
                         group_id=event.group_id,
                         user_id=event.user_id,
-                        duration=BAN_DURATION
+                        duration=ban_duration
                     )
                     bullet_position = None  # 重置子弹位置，结束游戏
                     chamber_position = 6  # 重置开枪位置
                     ongoing_games.discard(event.group_id)  # 移除进行中的对局标记
                     logger.info("禁言成功，游戏结束！")
-                    await revolver_shoot.send(f"砰！恭喜你获得【急性铜中毒】！ 你已被禁言{BAN_DURATION // 60}分钟。游戏结束！")
+                    await revolver_shoot.send(f"砰！恭喜你获得【急性铜中毒】！ 你已被禁言{ban_duration // 60}分钟。游戏结束！")
                 except FinishedException:
                     raise  # 继续抛出 FinishedException，不进行处理
                 except Exception as e:

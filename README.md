@@ -35,6 +35,7 @@
 - `DISABLED_GROUPS`：设置默认禁用插件的群聊 ID 列表。
 - `ENABLED_BAN_GROUPS`：设置默认允许禁言功能的群聊 ID 列表。
 - `BAN_DURATION`：设置默认禁言时间，单位为秒。
+- `ROLLING_BAN`: 设置随机时间禁言，时间为禁言时间内的随机数，布尔值。
 
 ## 贡献
 欢迎提交 Issue 和 Pull Request 来改进本插件。
