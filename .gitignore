@@ -1,1 +1,3 @@
-src/nonebot-plugin-revolver/__pycache__/*
+# Ignore Python cache files and directories
+*.pyc
+__pycache__/
