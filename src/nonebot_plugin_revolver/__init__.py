@@ -9,7 +9,7 @@ from asyncio import Lock
 
 # 插件元数据
 __plugin_meta__ = PluginMetadata(
-    name="nonebot-plugin-revolver",
+    name="简易左轮禁言",
     description="简易左轮禁言小游戏插件",
     usage="轮盘、开枪",
     homepage="https://github.com/xingzhiyou/nonebot-plugin-revolver",
