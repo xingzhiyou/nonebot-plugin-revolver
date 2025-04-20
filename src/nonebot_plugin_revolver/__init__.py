@@ -1,10 +1,8 @@
 import random
-from nonebot.plugin import PluginMetadata
-from nonebot import on_command, logger, get_driver
+from nonebot.plugin import PluginMetadata, get_plugin_config  # 修改导入
+from nonebot import on_command, logger
 from nonebot.exception import FinishedException
 from nonebot.adapters.onebot.v11 import MessageEvent, Bot
-from nonebot.adapters.onebot.v11.permission import GROUP_ADMIN, GROUP_OWNER
-from nonebot.permission import SUPERUSER
 
 from .config import Config
 from asyncio import Lock
@@ -20,8 +18,8 @@ __plugin_meta__ = PluginMetadata(
     supported_adapters={"~onebot.v11"},  # 支持onebot v11适配器
 )
 
-driver_config = get_driver().config.model_dump()  # 缓存配置
-conf = Config(**driver_config)  # 实例化配置类
+# 使用 get_plugin_config 获取插件配置
+conf = get_plugin_config("nonebot_plugin_revolver")  # 替换为插件名称
 
 # 初始化游戏命令
 revolver_start = on_command("轮盘", aliases={"左轮", "转盘", "装弹"}, priority=5, block=True)
