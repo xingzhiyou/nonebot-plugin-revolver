@@ -19,7 +19,7 @@ __plugin_meta__ = PluginMetadata(
 )
 
 # 使用 get_plugin_config 获取插件配置
-conf = get_plugin_config("nonebot_plugin_revolver")  # 替换为插件名称
+conf = get_plugin_config(Config)  # 替换为插件名称
 
 # 初始化游戏命令
 revolver_start = on_command("轮盘", aliases={"左轮", "转盘", "装弹"}, priority=5, block=True)
